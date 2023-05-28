@@ -58,6 +58,15 @@ class ShoppingListController extends Controller
         //
         return redirect('/shopping_list/list');
     }
+        
+    public function index()
+    {
+        $sortedLists = ShoppingList::sortedByName()->get();
+
+        // 取得したソート済みのリストを処理するなどのロジックを記述
+
+        return view('view', ['sortedLists' => $sortedLists]);
+    }
 
     //「単一のshopping_list_task」Modelの取得
     protected function getShopping_list_Model($shopping_list_id)
