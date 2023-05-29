@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
-use Illuminate\Http\ShoppingListRegisterPostRequest;
+use App\Http\Requests\ShoppingListRegisterPostRequest;
 use App\Models\ShoppingList as ShoppingListModel;
 use App\Models\CompletedShoppingListModel as CompletedShoppingListModel;
 
@@ -16,9 +16,7 @@ class ShoppingListController extends Controller
     protected function getListBuilder()
     {
         return ShoppingListModel::where('user_id', Auth::id())
-                     ->orderBy('priority', 'DESC')
-                     ->orderBy('period')
-                     ->orderBy('created_at');
+                    ->orderBy('name');
     }
     
     //「買うもの」一覧ページの表示
@@ -61,7 +59,7 @@ class ShoppingListController extends Controller
         
     public function index()
     {
-        $sortedLists = ShoppingListModel::sortedByName()->get();
+        $sortedLists = ShoppingListModel::orderBy('name')->get();
 
         // 取得したソート済みのリストを処理するなどのロジックを記述
 
