@@ -40,6 +40,9 @@ class ShoppingListController extends Controller
         
         // user_id の追加
         $datum['user_id'] = Auth::id();
+        
+        // 「登録日」の追加
+        $datum['register'] = date('Y-m-d');
 
         // テーブルへのINSERT
         try {

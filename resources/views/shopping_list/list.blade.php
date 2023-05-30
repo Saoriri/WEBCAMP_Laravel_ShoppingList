@@ -25,7 +25,7 @@
                 @endforeach
                 </div>
             @endif
-            <form action="/shopping_list/list" method="post">
+            <form action="/shopping_list/register" method="post">
                 @csrf
                 「買うもの」名:<input name="name" value="{{ old('name') }}"><br>
                 <button>「買うもの」を登録する</button>
@@ -39,8 +39,8 @@
             <th>「買うもの」名
 @foreach ($list as $shopping_list)
         <tr>
+            <td>{{ $shopping_list->register }}
             <td>{{ $shopping_list->name }}
-            <td>{{ $shopping_list->period }}
             <td><form action="{{ route('complete', ['shopping_list_id' => $shopping_list->id]) }}" method="post"> @csrf <button onclick='return confirm("この「買うもの」を「完了」にします。よろしいですか？");' >完了</button></form>
             <td><form action="{{ route('complete', ['shopping_list_id' => $shopping_list->id]) }}" method="post"> @csrf <button onclick='return confirm("この「買うもの」を「削除」します。よろしいですか？");' >削除</button></form>
 @endforeach
