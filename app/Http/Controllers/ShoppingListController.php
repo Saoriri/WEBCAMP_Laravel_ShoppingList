@@ -130,7 +130,9 @@ class ShoppingListController extends Controller
             }
 
             // shopping_lists側を削除する
-            $shopping_list_task->delete();
+            if (!$shopping_list_task->delete()) {
+                throw new \Exception('Failed to delete shopping list task.');
+            }
 
             // completed_shopping_lists側にinsertする
             $dask_datum = $shopping_list_task->toArray();
@@ -138,9 +140,8 @@ class ShoppingListController extends Controller
             unset($dask_datum['updated_at']);
             $r = CompletedShoppingListModel::create($dask_datum);
             if ($r === null) {
-                // insertで失敗したのでトランザクション終了
-                throw new \Exception('');
-            }
+                throw new \Exception('Failed to insert completed shopping list.');
+            }   
 
             // トランザクション終了
             DB::commit();

@@ -41,8 +41,12 @@
         <tr>
             <td>{{ $shopping_list->register }}
             <td>{{ $shopping_list->name }}
-            <td><form action="{{ route('complete', ['shopping_list_id' => $shopping_list->id]) }}" method="post"> @csrf <button onclick='return confirm("この「買うもの」を「完了」にします。よろしいですか？");' >完了</button></form>
-            <td><form action="{{ route('complete', ['shopping_list_id' => $shopping_list->id]) }}" method="post"> @csrf <button onclick='return confirm("この「買うもの」を「削除」します。よろしいですか？");' >削除</button></form>
+            <td>
+                <form action="{{ route('complete', ['shopping_list_id' => $shopping_list->id]) }}" method="post">
+                    @csrf @method('POST') <button type="submit" onclick='return confirm("この「買うもの」を「完了」にします。よろしいですか？");'>完了</button></form>
+            <td>
+                <form action="{{ route('complete', ['shopping_list_id' => $shopping_list->id]) }}" method="post"> 
+                    @csrf  @method('POST') <button onclick='return confirm("この「買うもの」を「削除」します。よろしいですか？");' >削除</button></form>
 @endforeach
         </table>
         <!-- ページネーション -->
