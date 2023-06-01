@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Http\Requests\ShoppingListRegisterPostRequest;
 use App\Models\ShoppingList as ShoppingListModel;
-use App\Models\CompletedShoppingListModel as CompletedShoppingListModel;
+use App\Models\CompletedShoppingList as CompletedShoppingListModel;
 
 class ShoppingListController extends Controller
 {
@@ -26,8 +26,7 @@ class ShoppingListController extends Controller
         $per_page = 3;
         
         // 一覧の取得
-        $shopping_list = $this->getListBuilder()
-                     ->paginate($per_page);
+        $shopping_list = $this->getListBuilder()->orderBy('name')->paginate($per_page);
                      
         return view('shopping_list.list',['list' => $shopping_list]);
     }
@@ -69,50 +68,50 @@ class ShoppingListController extends Controller
         return view('view', ['sortedLists' => $sortedLists]);
     }
 
-    //「単一のshopping_list_task」Modelの取得
+    //「単一のshopping_list_list」Modelの取得
     protected function getShoppingListModel($shopping_list_id)
     {
         // shopping_list_idのレコードを取得する
-        $shopping_list_task = ShoppingListModel::find($shopping_list_id);
-        if ($shopping_list_task === null) {
+        $shopping_list_list = ShoppingListModel::find($shopping_list_id);
+        if ($shopping_list_list === null) {
             return null;
         }
-        // 本人以外のshopping_list_taskならNGとする
-        if ($shopping_list_task->user_id !== Auth::id()) {
+        // 本人以外のshopping_list_listならNGとする
+        if ($shopping_list_list->user_id !== Auth::id()) {
             return null;
         }
         //
-        return $shopping_list_task;
+        return $shopping_list_list;
     }
 
-    //「単一のshopping_list_task」の表示
+    //「単一のshopping_list_list」の表示
     protected function singleShoppingListRender($shopping_list_id, $template_name)
     {
         // $shopping_list_idのレコードを取得する
-        $shopping_list_task = $this->getShoppingListModel($shopping_list_id);
-        if ($shopping_list_task === null) {
+        $shopping_list_list = $this->getShoppingListModel($shopping_list_id);
+        if ($shopping_list_list === null) {
             return redirect('/shopping_list/list');
         }
 
         // テンプレートに「取得したレコード」の情報を渡す
-        return view($template_name, ['shopping_list_task' => $shopping_list_task]);
+        return view($template_name, ['shopping_list_list' => $shopping_list_list]);
     }
     
     //削除処理
     public function delete(Request $request, $shopping_list_id)
     {
         // shopping_list_idのレコードを取得する
-        $shopping_list_task = $this->getShoppingListModel($shopping_list_id);
+        $shopping_list_list = $this->getShoppingListModel($shopping_list_id);
 
         // 「買うもの」を削除する
-        if ($shopping_list_task !== null) {
-            $shopping_list_task->delete();
+        if ($shopping_list_list !== null) {
+            $shopping_list_list->delete();
             $request->session()->flash('front.shopping_list_delete_success', true);
-        }
+    }
 
         // 一覧に遷移する
         return redirect('/shopping_list/list');
-    }
+}
 
     //「買うもの」の完了
    public function complete(Request $request, $shopping_list_id)
@@ -123,19 +122,19 @@ class ShoppingListController extends Controller
             DB::beginTransaction();
 
             // shopping_list_idのレコードを取得する
-            $shopping_list_task = $this->getShoppingListModel($shopping_list_id);
-            if ($shopping_list_task === null) {
+            $shopping_list_list = $this->getShoppingListModel($shopping_list_id);
+            if ($shopping_list_list === null) {
                 // shopping_list_idが不正なのでトランザクション終了
                 throw new \Exception('');
             }
 
             // shopping_lists側を削除する
-            if (!$shopping_list_task->delete()) {
-                throw new \Exception('Failed to delete shopping list task.');
+            if (!$shopping_list_list->delete()) {
+                throw new \Exception('Failed to delete shopping list list.');
             }
 
             // completed_shopping_lists側にinsertする
-            $dask_datum = $shopping_list_task->toArray();
+            $dask_datum = $shopping_list_list->toArray();
             unset($dask_datum['created_at']);
             unset($dask_datum['updated_at']);
             $r = CompletedShoppingListModel::create($dask_datum);

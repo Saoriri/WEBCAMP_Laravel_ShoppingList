@@ -1,20 +1,20 @@
 @extends('layout')
 
 {{-- タイトル --}}
-@section('title')(詳細画面)@endsection
+@section('title')(購入済み「買うもの」一覧)@endsection
 
 {{-- メインコンテンツ --}}
-@section('contets')
+@section('contents')
         <h1>購入済み「買うもの」一覧</h1>
         <a href="/shopping_list/list">「買うもの」一覧に戻る</a><br>
         <table border="1">
         <tr>
             <th>「買うもの」名
             <th>購入日
-@foreach ($list as $task)
+@foreach ($list as $completed_shopping_list)
         <tr>
-            <td>{{ $task->name }}
-            <td>{{ $task->created_at }}
+            <td>{{ $completed_shopping_list->name }}
+            <td>{{ $completed_shopping_list->created_at }}
 @endforeach
         </table>
         <!-- ページネーション -->

@@ -1,7 +1,7 @@
 @extends('layout')
 
 {{-- タイトル --}}
-@section('title')(詳細画面)@endsection
+@section('title')(一覧画面)@endsection
 
 {{-- メインコンテンツ --}}
 @section('contents')
@@ -45,8 +45,8 @@
                 <form action="{{ route('complete', ['shopping_list_id' => $shopping_list->id]) }}" method="post">
                     @csrf @method('POST') <button type="submit" onclick='return confirm("この「買うもの」を「完了」にします。よろしいですか？");'>完了</button></form>
             <td>
-                <form action="{{ route('complete', ['shopping_list_id' => $shopping_list->id]) }}" method="post"> 
-                    @csrf  @method('POST') <button onclick='return confirm("この「買うもの」を「削除」します。よろしいですか？");' >削除</button></form>
+                <form action="{{ route('delete', ['shopping_list_id' => $shopping_list->id]) }}" method="post"> 
+                    @csrf @method("DELETE") <button type="submit" onclick='return confirm("この「買うもの」を「削除」します。よろしいですか？");'>削除</button></form>
 @endforeach
         </table>
         <!-- ページネーション -->
