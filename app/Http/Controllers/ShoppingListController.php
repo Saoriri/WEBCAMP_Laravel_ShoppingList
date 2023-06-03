@@ -34,6 +34,7 @@ class ShoppingListController extends Controller
     //「買うもの」の登録
     public function register(ShoppingListRegisterPostRequest $request)
     {
+        
         // validate済みのデータの取得
         $datum = $request->validated();
         
@@ -42,7 +43,7 @@ class ShoppingListController extends Controller
         
         // 「登録日」の追加
         $datum['register'] = date('Y-m-d');
-
+        
         // テーブルへのINSERT
         try {
             $r = ShoppingListModel::create($datum);
@@ -107,25 +108,22 @@ class ShoppingListController extends Controller
         if ($shopping_list_list !== null) {
             $shopping_list_list->delete();
             $request->session()->flash('front.shopping_list_delete_success', true);
-    }
+        }
 
         // 一覧に遷移する
         return redirect('/shopping_list/list');
-}
-
+    }
+    
     //「買うもの」の完了
    public function complete(Request $request, $shopping_list_id)
     {
-         // カウンターの取得
-        $counter = $shopping_list_list->purchased_count;
+    // $shopping_list_idのレコードを取得する
+    $shopping_list_list = $this->getShoppingListModel($shopping_list_id);
 
-        // カウンターのインクリメント
-        $counter++;
-
-        // カウンターの更新
-        $shopping_list_list->purchased_count = $counter;
-        $shopping_list_list->save();
-        
+    // レコードが存在しない場合はリダイレクトする
+    if ($shopping_list_list === null) {
+        return redirect('/shopping_list/list');
+    }
         /* 「買うもの」を完了テーブルに移動させる */
         try {
             // トランザクション開始
