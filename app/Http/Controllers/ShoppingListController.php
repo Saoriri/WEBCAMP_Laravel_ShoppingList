@@ -116,6 +116,16 @@ class ShoppingListController extends Controller
     //「買うもの」の完了
    public function complete(Request $request, $shopping_list_id)
     {
+         // カウンターの取得
+        $counter = $shopping_list_list->purchased_count;
+
+        // カウンターのインクリメント
+        $counter++;
+
+        // カウンターの更新
+        $shopping_list_list->purchased_count = $counter;
+        $shopping_list_list->save();
+        
         /* 「買うもの」を完了テーブルに移動させる */
         try {
             // トランザクション開始

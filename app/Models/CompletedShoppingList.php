@@ -21,6 +21,6 @@ class CompletedShoppingList extends Model
      */
     public function scopeSortedByNameAndDate($query)
     {
-        return $query->orderBy('name', 'asc')->orderBy('purchase_date', 'asc');
+        return $query->orderBy('name', 'asc')->orderBy('created_at', 'asc');
     }
 }
