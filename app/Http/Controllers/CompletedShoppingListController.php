@@ -19,7 +19,7 @@ class CompletedShoppingListController extends Controller
      */
     public function list()
     {
-        $completed_shopping_list = CompletedShoppingListModel::sortedByNameAndDate()->paginate(3);
+        $completed_shopping_list = CompletedShoppingListModel::where('user_id', Auth::id())->sortedByNameAndDate()->paginate(3);
   
         return view('shopping_list.completed_shopping_list', ['list' => $completed_shopping_list]);
     }
