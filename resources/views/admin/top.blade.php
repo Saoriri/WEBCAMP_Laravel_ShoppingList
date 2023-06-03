@@ -1,7 +1,7 @@
 @extends('admin.layout')
 
 {{-- メインコンテンツ --}}
-@section('contets')
+@section('contents')
         <menu label="リンク">
         <a href="./user_list.html">ユーザ一覧</a><br>
         管理画面機能 1<br>

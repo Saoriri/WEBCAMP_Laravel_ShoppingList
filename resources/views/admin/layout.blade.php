@@ -6,6 +6,6 @@
         <title>ログイン機能付き買いものリスト管理サービス 管理画面 @yield('title')</title>
     </head>
     <body>
-@yield('contets')
+@yield('contents')
     </body>
 </html>
