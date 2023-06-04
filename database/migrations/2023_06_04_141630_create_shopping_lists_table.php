@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCompletedShoppingListsTable extends Migration
+class CreateShoppingListsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,18 +13,16 @@ class CreateCompletedShoppingListsTable extends Migration
      */
     public function up()
     {
-        Schema::create('completed_shopping_lists', function (Blueprint $table) {
-           $table->unsignedInteger('id');
+        Schema::create('shopping_lists', function (Blueprint $table) {
+            $table->id();
             $table->date('register')->comment('登録日');
             $table->string('name', 255)->comment('「買うもの」名');
-            $table->unsignedBigInteger('user_id')->comment('このタスクの所有者');
+            $table->unsignedBigInteger('user_id')->comment('この「買うもの」一覧の所有者');
             $table->foreign('user_id')->references('id')->on('users'); // 外部キー制約
             
             //$table->timestamps();
-            $table->dateTime('created_at')->useCurrent()->comment('タスク完了日時');
+            $table->dateTime('created_at')->useCurrent();
             $table->dateTime('updated_at')->useCurrent()->useCurrentOnUpdate();
-            //
-            $table->unsignedInteger('id')->primary();
         });
     }
 
@@ -35,6 +33,6 @@ class CreateCompletedShoppingListsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('completed_shopping_lists');
+        Schema::dropIfExists('shopping_lists');
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\User as UserModel;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -16,8 +17,8 @@ class UserController extends Controller
     {
         $group_by_column = ['users.id', 'users.name'];
         $list = UserModel::select($group_by_column)
-                         ->selectRaw('count(shopping_lists.id) as shopping_list_count')
-                         ->leftJoin('shopping_lists', 'users.id', '=', 'shopping_lists.user_id')
+                         ->selectRaw('COUNT(completed_shopping_lists.id) as shopping_list_count')
+                         ->leftJoin('completed_shopping_lists', 'users.id', '=', 'completed_shopping_lists.user_id')
                          ->groupBy($group_by_column)
                          ->orderBy('users.id')
                          ->get();
