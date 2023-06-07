@@ -21,7 +21,8 @@ class CompletedShoppingListController extends Controller
     public function list()
     {
     $completed_shopping_list = CompletedShoppingListModel::where('user_id', Auth::id())
-        ->orderBy('created_at', 'desc')
+        ->orderBy('name', 'asc')
+        ->orderBy('created_at', 'asc')
         ->paginate(3);
 
     // 完了日付のフォーマットを変更
