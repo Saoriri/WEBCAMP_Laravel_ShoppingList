@@ -146,6 +146,7 @@ class ShoppingListController extends Controller
             $dask_datum = $shopping_list_list->toArray();
             unset($dask_datum['created_at']);
             unset($dask_datum['updated_at']);
+            unset($dask_datum['register']); // registerキーを削除
             $r = CompletedShoppingListModel::create($dask_datum);
             if ($r === null) {
                 throw new \Exception('Failed to insert completed shopping list.');
