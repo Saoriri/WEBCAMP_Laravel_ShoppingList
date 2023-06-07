@@ -146,7 +146,6 @@ class ShoppingListController extends Controller
             $dask_datum = $shopping_list_list->toArray();
             unset($dask_datum['created_at']);
             unset($dask_datum['updated_at']);
-            $dask_datum['created_at'] = Carbon::now()->format('Y-m-d'); // 完了日付を追加
             $r = CompletedShoppingListModel::create($dask_datum);
             if ($r === null) {
                 throw new \Exception('Failed to insert completed shopping list.');
