@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\ShoppingListRegisterPostRequest;
 use App\Models\ShoppingList as ShoppingListModel;
 use App\Models\CompletedShoppingList as CompletedShoppingListModel;
+use Carbon\Carbon;
 
 class CompletedShoppingListController extends Controller
 {
@@ -19,8 +20,16 @@ class CompletedShoppingListController extends Controller
      */
     public function list()
     {
-        $completed_shopping_list = CompletedShoppingListModel::where('user_id', Auth::id())->sortedByNameAndDate()->paginate(3);
-  
-        return view('shopping_list.completed_shopping_list', ['list' => $completed_shopping_list]);
+    $completed_shopping_list = CompletedShoppingListModel::where('user_id', Auth::id())
+        ->orderBy('created_at', 'desc')
+        ->paginate(3);
+
+    // 完了日付のフォーマットを変更
+    $completed_shopping_list->getCollection()->transform(function ($item) {
+        $item->created_at = Carbon::parse($item->created_at)->format('Y-m-d');
+        return $item;
+    });
+
+    return view('shopping_list.completed_shopping_list', ['list' => $completed_shopping_list]);
     }
 }

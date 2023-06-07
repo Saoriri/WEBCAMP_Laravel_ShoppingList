@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\ShoppingListRegisterPostRequest;
 use App\Models\ShoppingList as ShoppingListModel;
 use App\Models\CompletedShoppingList as CompletedShoppingListModel;
+use Carbon\Carbon;
 
 class ShoppingListController extends Controller
 {
@@ -145,10 +146,11 @@ class ShoppingListController extends Controller
             $dask_datum = $shopping_list_list->toArray();
             unset($dask_datum['created_at']);
             unset($dask_datum['updated_at']);
+            $dask_datum['created_at'] = Carbon::now()->format('Y-m-d'); // 完了日付を追加
             $r = CompletedShoppingListModel::create($dask_datum);
             if ($r === null) {
                 throw new \Exception('Failed to insert completed shopping list.');
-            }   
+            }
 
             // トランザクション終了
             DB::commit();
