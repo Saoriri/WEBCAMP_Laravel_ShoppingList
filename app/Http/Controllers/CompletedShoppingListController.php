@@ -26,7 +26,7 @@ class CompletedShoppingListController extends Controller
 
     // 完了日付のフォーマットを変更
     $completed_shopping_list->getCollection()->transform(function ($item) {
-        $item->created_at = Carbon::parse($item->created_at)->format('Y-m-d');
+        $item->created_at = Carbon::parse($item->created_at)->format('Y/m/d');
         return $item;
     });
 

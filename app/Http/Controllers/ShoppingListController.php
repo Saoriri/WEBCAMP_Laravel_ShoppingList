@@ -43,7 +43,7 @@ class ShoppingListController extends Controller
         $datum['user_id'] = Auth::id();
         
         // 「登録日」の追加
-        $datum['register'] = date('Y-m-d');
+        $datum['register'] = Carbon::now();
         
         // テーブルへのINSERT
         try {

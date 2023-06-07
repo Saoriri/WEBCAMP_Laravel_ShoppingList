@@ -39,7 +39,7 @@
             <th>「買うもの」名
 @foreach ($list as $shopping_list)
         <tr>
-            <td>{{ $shopping_list->register }}
+            <td>{{ \Carbon\Carbon::parse($shopping_list->register)->format('Y/m/d') }}
             <td>{{ $shopping_list->name }}
             <td>
                 <form action="{{ route('complete', ['shopping_list_id' => $shopping_list->id]) }}" method="post">
