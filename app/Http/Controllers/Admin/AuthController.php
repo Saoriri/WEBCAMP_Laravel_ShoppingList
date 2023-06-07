@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 
 class AuthController extends Controller 
 {
-    //トップページ表示
+    //ログイン画面表示
    public function index()
     {
         return view('admin.index');

@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 class HomeController extends Controller
 {
     /**
-     * トップページ を表示する
+     * 管理画面を表示する
      * 
      * @return \Illuminate\View\View
      */

@@ -27,4 +27,13 @@ class UserController extends Controller
         return view('admin.user.list', ['users' => $list]);
     }
 
+    /**
+     * 管理画面を表示する
+     * 
+     * @return \Illuminate\View\View
+     */
+    public function top()
+    {
+        return view('admin.top');
+    }
 }
